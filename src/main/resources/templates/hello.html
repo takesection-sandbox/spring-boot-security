@@ -6,6 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
-        Hello <span th:text="${user}">anonymous</span>
+        <div th:text="${user}"></div>
+        <div th:text="${data.message}"></div>
+        <div th:text="${form.key} + ': ' + ${form.value}"></div>
     </body>
 </html>

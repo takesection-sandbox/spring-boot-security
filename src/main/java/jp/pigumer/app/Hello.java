@@ -15,19 +15,29 @@
  */
 package jp.pigumer.app;
 
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@RequestMapping("/hello")
 public class Hello {
-    
-    @RequestMapping("/hello")
-    public ModelAndView hello(@AuthenticationPrincipal User user) {
+
+    @Autowired
+    ObjectFactory<SessionData> sessionDataFactory;
+
+    @RequestMapping
+    public ModelAndView hello(@AuthenticationPrincipal User user,
+                              @ModelAttribute Form form) {
         ModelAndView mv = new ModelAndView();
         mv.addObject("user", user.getUsername());
+        mv.addObject("data", sessionDataFactory.getObject());
+        mv.addObject("form", form);
         mv.setViewName("hello");
         return mv;
     }
