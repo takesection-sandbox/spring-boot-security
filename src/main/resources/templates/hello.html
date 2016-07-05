@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Hello</title>
+        <title th:text="${@requestData.message}">Hello</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
         <div th:text="${user}"></div>
-        <div th:text="${data.message}"></div>
+        <div th:text="${@sessionData.message}"></div>
         <div th:text="${form.key} + ': ' + ${form.value}"></div>
     </body>
 </html>

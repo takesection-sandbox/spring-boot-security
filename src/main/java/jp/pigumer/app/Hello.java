@@ -24,19 +24,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.UUID;
+
 @Controller
 @RequestMapping("/hello")
 public class Hello {
 
     @Autowired
-    ObjectFactory<SessionData> sessionDataFactory;
+    ObjectFactory<RequestData> requestDataFactory;
 
     @RequestMapping
     public ModelAndView hello(@AuthenticationPrincipal User user,
                               @ModelAttribute Form form) {
+        requestDataFactory.getObject().message = UUID.randomUUID().toString();
+
         ModelAndView mv = new ModelAndView();
         mv.addObject("user", user.getUsername());
-        mv.addObject("data", sessionDataFactory.getObject());
         mv.addObject("form", form);
         mv.setViewName("hello");
         return mv;
