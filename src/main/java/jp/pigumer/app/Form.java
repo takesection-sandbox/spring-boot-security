@@ -15,6 +15,12 @@
  */
 package jp.pigumer.app;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
+
+@Component
+@Scope(WebApplicationContext.SCOPE_REQUEST)
 public class Form {
 
     private String key;

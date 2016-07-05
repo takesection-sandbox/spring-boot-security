@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
@@ -33,13 +34,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class Application {
 
+    @Value("${jp.pigumer.app.number}")
+    private int number;
+
     @Autowired
     ObjectFactory<SessionData> sessionDataFactory;
 
     @RequestMapping
     public String index() {
         SessionData data = sessionDataFactory.getObject();
-        data.message = "index";
+        data.message = String.valueOf(number);
         return "index";
     }
     

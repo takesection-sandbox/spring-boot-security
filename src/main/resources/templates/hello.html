@@ -8,6 +8,6 @@
     <body>
         <div th:text="${user}"></div>
         <div th:text="${@sessionData.message}"></div>
-        <div th:text="${form.key} + ': ' + ${form.value}"></div>
+        <div th:text="${@form.key} + ': ' + ${@form.value}"></div>
     </body>
 </html>
