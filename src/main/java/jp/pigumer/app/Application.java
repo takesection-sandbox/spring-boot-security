@@ -46,7 +46,12 @@ public class Application {
         data.message = String.valueOf(number);
         return "index";
     }
-    
+
+    @RequestMapping("/login")
+    public String login() {
+        return "login";
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }

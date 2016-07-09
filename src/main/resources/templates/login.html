@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div style="color: red;" th:if="${param.logout}">You have been logged out</div>
+<div style="color: red;" th:if="${param.error}">There was an error, please try again</div>
+<form method="post" th:action="@{/login}">
+    <div>
+        <input name="id" placeholder="username" type="text"/>
+    </div>
+    <div>
+        <input name="password" placeholder="password" type="password"/>
+    </div>
+    <div>
+        <input type="submit" value="login"/>
+    </div>
+</form>
+</body>
+</html>
