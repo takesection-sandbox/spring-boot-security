@@ -16,12 +16,8 @@
 package jp.pigumer.app;
 
 import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
-import akka.actor.Props;
-import akka.actor.UntypedActor;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -30,8 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -41,9 +35,8 @@ public class Hello {
     @Autowired
     ObjectFactory<RequestData> requestDataFactory;
 
-    ActorSystem system;
-
-    ActorRef ref;
+    @Autowired
+    Akka akka;
 
     @RequestMapping("/hello")
     public ModelAndView hello(@AuthenticationPrincipal User user,
@@ -60,22 +53,10 @@ public class Hello {
     @RequestMapping("/tell")
     @ResponseBody
     public void tell() {
+        ActorRef ref = akka.system.actorFor("user/sample");
         ref.tell(Objects.toString(UUID.randomUUID()), ActorRef.noSender());
     }
 
 
-    @PostConstruct
-    public void init() {
-        System.out.println("start");
-        system = ActorSystem.create("Akka");
-        ref = system.actorOf(Props.create(Actor.class), "sample");
-        System.out.println(Objects.toString(ref));
-    }
-
-    @PreDestroy
-    public void destroy() {
-        system.stop(ref);
-        system.shutdown();
-    }
 
 }

@@ -15,6 +15,9 @@
  */
 package jp.pigumer.app;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,15 +29,22 @@ import java.util.Collections;
 @Component
 public class UserDetailServiceImpl implements UserDetailsService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserDetailServiceImpl.class);
+
+    @Autowired
+    UserDao dao;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if (username == null || username.isEmpty()) {
             throw new UsernameNotFoundException("username is empty");
         }
 
-        if (username.equals("user")) {
-            return new User(username, "password", Collections.emptyList());
-        }
-        throw new UsernameNotFoundException(username + " is not found");
+        return dao.password(username)
+                .map(password -> {
+                    LOGGER.info("password: " + password);
+                    return new User(username, password, Collections.emptyList());
+                })
+                .orElseThrow(() -> new UsernameNotFoundException(username + " is not found"));
     }
 }

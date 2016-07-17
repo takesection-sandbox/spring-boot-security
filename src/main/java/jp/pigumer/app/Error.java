@@ -15,23 +15,27 @@
  */
 package jp.pigumer.app;
 
+import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 @Controller
-@RequestMapping("/upload")
-public class Upload {
+public class Error implements ErrorController {
 
-    @RequestMapping
-    public ModelAndView upload(@ModelAttribute UploadForm form, RedirectAttributes redirect)
-    {
-        redirect.addAttribute("key", form.name);
-        redirect.addAttribute("value", form.image.getOriginalFilename());
-        RedirectView view = new RedirectView("/hello");
-        return new ModelAndView(view);
+    @Override
+    public String getErrorPath() {
+        return "/error";
+    }
+
+    @RequestMapping("/error")
+    public String error() {
+        return "systemError";
+    }
+
+    @RequestMapping("/404")
+    public String notfound() {
+        return "404";
     }
 }
