@@ -15,18 +15,21 @@
  */
 package jp.pigumer.app;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Component
-public class ExceptionHandler extends ExceptionHandlerExceptionResolver {
+public class ExceptionHandler implements HandlerExceptionResolver {
 
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+        response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         if (ex instanceof NullPointerException)
         {
             return new ModelAndView("npe");

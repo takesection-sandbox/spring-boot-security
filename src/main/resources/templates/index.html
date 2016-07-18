@@ -12,6 +12,16 @@
             $(function() {
                 var ex1url = /*[[@{/ex1}]]*/'';
                 var ex2url = /*[[@{/ex2}]]*/'';
+                var notfoundurl = /*[[@{/notfound}]]*/'';
+
+                $('#notfound').on('click', function() {
+                    $.ajax(notfoundurl).done(function(data) {
+                        console.log('done', data);
+                    }).fail(function($xhr, sts, ex) {
+                        console.log($xhr, sts, ex);
+                        alert($xhr);
+                    });
+                });
 
                 $('#ex1').on('click', function() {
                     $.ajax(ex1url).done(function(data) {
@@ -50,16 +60,22 @@
             <a th:href="@{/download}">Download</a>
         </div>
         <div>
-            <a th:href="@{/notfound}">Not Found</a>
-        </div>
-        <div>
             <a th:href="@{/tell}">Tell</a>
         </div>
         <div>
-            <a id="ex1" href="javascript:void(0)">ex1</a>
+            <a id="notfound" href="javascript:void(0)">REST notfound</a>
+            &nbsp;
+            <a th:href="@{/notfound}">Not Found</a>
         </div>
         <div>
-            <a id="ex2" href="javascript:void(0)">ex2</a>
+            <a id="ex1" href="javascript:void(0)">REST ex1</a>
+            &nbsp;
+            <a th:href="@{/ex1}">ex1</a>
+        </div>
+        <div>
+            <a id="ex2" href="javascript:void(0)">REST ex2</a>
+            &nbsp;
+            <a th:href="@{/ex2}">ex2</a>
         </div>
     </body>
 </html>
