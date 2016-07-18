@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -57,6 +58,16 @@ public class Hello {
         ref.tell(Objects.toString(UUID.randomUUID()), ActorRef.noSender());
     }
 
+    @RequestMapping("/ex1")
+    @ResponseBody
+    public Map<String, Object> ex1() {
+        throw new RuntimeException("ex1");
+    }
 
+    @RequestMapping("/ex2")
+    @ResponseBody
+    public Map<String, Object> ex2() {
+        throw new NullPointerException("ex2");
+    }
 
 }

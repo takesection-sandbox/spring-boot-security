@@ -15,27 +15,55 @@
  */
 package jp.pigumer.app;
 
-import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.AbstractErrorController;
+import org.springframework.boot.autoconfigure.web.ErrorAttributes;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @Controller
-public class Error implements ErrorController {
+public class Error extends AbstractErrorController {
+
+    @Autowired
+    public Error(ErrorAttributes errorAttributes) {
+        super(errorAttributes);
+    }
 
     @Override
     public String getErrorPath() {
         return "/error";
     }
 
+    @RequestMapping(value = "/error", produces = "text/html")
+    public ModelAndView errorHtml() {
+        return new ModelAndView("systemError");
+    }
+
     @RequestMapping("/error")
-    public String error() {
-        return "systemError";
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> error(HttpServletRequest request) {
+        Map<String, Object> body = getErrorAttributes(request, true);
+        HttpStatus status = getStatus(request);
+        return new ResponseEntity<>(body, status);
+    }
+
+    @RequestMapping(value = "/404", produces = "text/html")
+    public String notfoundHtml() {
+        return "404";
     }
 
     @RequestMapping("/404")
-    public String notfound() {
-        return "404";
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> notfound(HttpServletRequest request) {
+        Map<String, Object> body = getErrorAttributes(request, true);
+        HttpStatus status = getStatus(request);
+        return new ResponseEntity<>(body, status);
     }
 }

@@ -4,6 +4,35 @@
         <title>Index</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <script th:src="@{/node_modules/jquery/dist/jquery.js}"
+                src="../static/node_modules/jquery/dist/jquery.js">
+        </script>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            $(function() {
+                var ex1url = /*[[@{/ex1}]]*/'';
+                var ex2url = /*[[@{/ex2}]]*/'';
+
+                $('#ex1').on('click', function() {
+                    $.ajax(ex1url).done(function(data) {
+                        console.log('done', data);
+                    }).fail(function($xhr, sts, ex) {
+                        console.log($xhr, sts, ex);
+                        alert($xhr);
+                    });
+                });
+
+                $('#ex2').on('click', function() {
+                    $.ajax(ex2url).done(function(data) {
+                        console.log('done', data);
+                    }).fail(function($xhr, sts, ex) {
+                        console.log($xhr, sts, ex);
+                        alert($xhr);
+                    });
+                });
+            });
+            /*]]>*/
+        </script>
     </head>
     <body>
         <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
@@ -25,6 +54,12 @@
         </div>
         <div>
             <a th:href="@{/tell}">Tell</a>
+        </div>
+        <div>
+            <a id="ex1" href="javascript:void(0)">ex1</a>
+        </div>
+        <div>
+            <a id="ex2" href="javascript:void(0)">ex2</a>
         </div>
     </body>
 </html>
