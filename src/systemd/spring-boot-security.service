@@ -1,0 +1,11 @@
+[Unit]
+Description=spring-boot-security
+After=syslog.target
+
+[Service]
+ExecStart=/usr/bin/java -jar /var/spring-boot-security/spring-boot-security.jar
+ExecStop=kill $MAINPID
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

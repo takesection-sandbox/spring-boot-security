@@ -21,11 +21,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
-import org.springframework.boot.context.embedded.ErrorPage;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -33,13 +28,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @EnableAutoConfiguration
 @Controller
 public class Application {
-
-    static class Customizer implements EmbeddedServletContainerCustomizer {
-        @Override
-        public void customize(ConfigurableEmbeddedServletContainer container) {
-            container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/404"));
-        }
-    }
 
     @Value("${jp.pigumer.app.number}")
     private int number;
@@ -57,11 +45,6 @@ public class Application {
     @RequestMapping("/login")
     public String login() {
         return "login";
-    }
-
-    @Bean
-    Customizer customizer() {
-        return new Customizer();
     }
 
     public static void main(String[] args) {
