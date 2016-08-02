@@ -15,7 +15,6 @@
  */
 package jp.pigumer.app;
 
-import akka.actor.ActorRef;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,7 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 @Controller
@@ -35,9 +33,6 @@ public class Hello {
 
     @Autowired
     ObjectFactory<RequestData> requestDataFactory;
-
-    @Autowired
-    Akka akka;
 
     @RequestMapping("/hello")
     public ModelAndView hello(@AuthenticationPrincipal User user,
@@ -49,13 +44,6 @@ public class Hello {
         mv.addObject("form", form);
         mv.setViewName("hello");
         return mv;
-    }
-
-    @RequestMapping("/tell")
-    @ResponseBody
-    public void tell() {
-        ActorRef ref = akka.system.actorFor("user/sample");
-        ref.tell(Objects.toString(UUID.randomUUID()), ActorRef.noSender());
     }
 
     @RequestMapping("/ex1")
